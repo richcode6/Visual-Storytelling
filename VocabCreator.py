@@ -1,12 +1,13 @@
 from nltk import *
 import json
+import collections
 
 vocab = {"<pad>": 0,
  "<bos>": 1,
  "<eos>": 2,
  "<unk>": 3}
 
-vocabCounter = {}
+vocabCounter = collections.Counter()
 
 files = {"extractedDescriptions_train.txt", "extractedDescriptions_val.txt", "extractedStory_train.txt", "extractedStory_val.txt"}
 
@@ -28,11 +29,18 @@ for f in files:
                     vocabCounter[word] = 1
                 vocabCounter[word] += 1
 
-
 print("Vocab Len:: ", len(vocab))
 
-with open("Vs_vocab.txt", "w") as file:
+#commonWords = vocabCounter.most_common()
+
+for entry in vocabCounter:
+    if vocabCounter[entry] < 10:
+        del vocab[entry]
+
+print("Vocab Len -- updated:: ", len(vocab))
+
+with open("Vs_vocab_clean.txt", "w") as file:
     file.write(json.dumps(vocab))
 
-with open("Vs_vocab_counter.txt", "w") as file:
-    file.write(json.dumps(vocabCounter))
+#with open("Vs_vocab_counter.txt", "w") as file:
+#    file.write(json.dumps(vocabCounter))
