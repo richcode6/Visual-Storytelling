@@ -1,9 +1,0 @@
-*~
-*.pyc
-*.json
-
-/data
-/models
-/.ipynb_checkpoints
-
-
